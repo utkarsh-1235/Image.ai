@@ -1,5 +1,5 @@
 {
-  "name": "my-turborepo",
+  "name": "Image.ai",
   "private": true,
   "scripts": {
     "build": "turbo run build",
