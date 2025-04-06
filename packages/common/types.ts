@@ -2,9 +2,9 @@ import {z} from 'zod';
 
 export const trainModelSchema = z.object({
     name: z.string(),
-    type: z.enum(['Male, Female, Other']),
+    type: z.enum(['Male', 'Female', 'Other']),
     age: z.number(),
-    ethnicity: z.enum(['AsianAmerican','EastAsian','SouthEastAsian','SouthAsian', 'MiddleEastern', 'Pacific','Black','White' ,'Hispanic']),
+    ethinicity: z.enum(['AsianAmerican','EastAsian','SouthEastAsian','SouthAsian', 'MiddleEastern', 'Pacific','Black','White' ,'Hispanic']),
     eyeColor: z.enum(['Brown', 'Blue', 'Gray', 'Hazel']),
     bald: z.boolean(),
     images: z.array(z.string())

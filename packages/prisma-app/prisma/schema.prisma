@@ -26,9 +26,10 @@ model Model{
   name          String
   type          ModelTypeEnum
   age           Int
-  ethnicity    ModelEthinicityEnum
+  ethinicity    ModelEthinicityEnum
   eyeColor    ModelEyeColorEnum
-  balding       Boolean
+  bald       Boolean
+  userId      String
   trainingImages  TrainingImages[]
   outputImages    OutputImages[]
   createdAt       DateTime @default(now())
@@ -44,9 +45,12 @@ model TrainingImages{
 
 model OutputImages{
   id           String   @id  @default(uuid())
-  imageUrl     String
+  imageUrl     String   @default("")
   modelId      String
   model        Model   @relation(fields: [modelId], references: [id])
+  userId       String
+  prompt       String
+  status       StatusEnum  @default(Pending)
   createAt     DateTime @default(now())
   updatedAt    DateTime  @updatedAt
 }
@@ -64,6 +68,11 @@ model PackPrompts{
   packs   Packs   @relation(fields: [packId], references:  [id])
 }
 
+enum StatusEnum{
+  Pending
+  Generated
+  Failed
+}
 
 enum ModelTypeEnum{
     Male
