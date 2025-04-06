@@ -38,7 +38,7 @@ app.post("/ai/training", async(req, res)=>{
     })
 });
 
-app.post('ai/generate', async(req,res)=>{
+app.post('/ai/generate', async(req,res)=>{
    const parsedBody = GenerateImage.safeParse(req.body);
 
    if(!parsedBody.success){
@@ -61,9 +61,69 @@ app.post('ai/generate', async(req,res)=>{
     imageId: data.id
    })
 });
-// app.post();
-// app.get();
-// app.get();
+
+app.post('/pack/generate', async(req, res)=>{
+    const parsedBody = GenerateImageFromPrompt.safeParse(req.body);
+
+    if(!parsedBody.success){
+        res.status(401).json({
+            message: "Incorrect Input"
+        })
+        return;
+    }
+
+    const prompts = await prismaClient.packPrompts.findMany({
+        where: {
+        packId: parsedBody.data.packId
+        }
+    })
+
+    const images = await prismaClient.outputImages.createManyAndReturn({
+        data: prompts.map((prompt)=>({
+            prompt: prompt.prompt,
+            userId: USER_ID,
+            modelId: parsedBody.data.modelId,
+            imageUrl: ""
+        }))
+    })
+
+    res.status(200).json({
+        images: images.map((image)=> image.id)
+    })
+
+});
+ 
+app.get('/pack/bulk', async(req, res)=>{
+    const packs = await prismaClient.packs.findMany({})
+    
+    res.status(200).json({
+        packs
+    })
+});
+
+app.get('/image/bulk', async(req, res)=>{
+    const images= req.query.images as string[];
+    const limit = req.query.limit as string ?? '10';
+    const offset = req.query.offset as string  ?? '0';
+
+    console.log(images);
+
+
+    const imageData = await prismaClient.outputImages.findMany({
+        where: {
+            id: {
+                in: images
+            },
+            userId: USER_ID
+        },
+        skip: parseInt(offset),
+        take: parseInt(limit)
+    })
+
+    res.status(200).json({
+        images: imageData
+    })
+});
 
 
 app.listen(Port,()=>{
