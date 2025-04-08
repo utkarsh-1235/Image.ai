@@ -30,10 +30,14 @@ model Model{
   eyeColor    ModelEyeColorEnum
   bald       Boolean
   userId      String
+  tensorPath  String?
+  triggerFlow String?
+  trainingStatus  ModelTrainingStatusEnum  @default(Pending)
   trainingImages  TrainingImages[]
   outputImages    OutputImages[]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  falAiRequestId  String?
 }
 
 model TrainingImages{
@@ -50,6 +54,7 @@ model OutputImages{
   model        Model   @relation(fields: [modelId], references: [id])
   userId       String
   prompt       String
+  falAiRequestId  String?
   status       StatusEnum  @default(Pending)
   createAt     DateTime @default(now())
   updatedAt    DateTime  @updatedAt
@@ -67,6 +72,13 @@ model PackPrompts{
   packId  String
   packs   Packs   @relation(fields: [packId], references:  [id])
 }
+
+enum ModelTrainingStatusEnum{
+  Pending
+  Generated
+  Failed
+}
+
 
 enum StatusEnum{
   Pending

@@ -1,13 +1,13 @@
 import { PrismaClient } from "@prisma/client/extension";
 
-export class BaseModel{
+export abstract class BaseModel{
     constructor(){}
 
-    public async generateImage(prompt: string){
+    public async generateImage(prompt: string, tensorFlowPath: string){
 
     }
 
-    public async trainModel(prompt: string){
-        
+    public async trainModel(inputImages: string[], triggerWord: string){
+
     }
 }
