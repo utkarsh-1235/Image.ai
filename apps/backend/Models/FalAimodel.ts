@@ -12,7 +12,7 @@ export class FalAiModel extends BaseModel{
               prompt: prompt,
               loras: [{path: tensorFlowPath, scale: 1 }]
             },
-            
+            webhookUrl: `${process.env.WEBHOOK_URL}/fal-ai/webhook/image`,
           });
           return {request_id, response_url};
     }
@@ -23,7 +23,7 @@ export class FalAiModel extends BaseModel{
               image_url: zipImage,
               trigger_word: triggerWord
             },
-            webhookUrl: `${process.env.WEBHOOK_URL}/fal-ai/webhook`,
+            webhookUrl: `${process.env.WEBHOOK_URL}/fal-ai/webhook/train`,
           });
         return {request_id, response_url};
     }

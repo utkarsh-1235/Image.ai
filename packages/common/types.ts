@@ -7,7 +7,7 @@ export const trainModelSchema = z.object({
     ethinicity: z.enum(['AsianAmerican','EastAsian','SouthEastAsian','SouthAsian', 'MiddleEastern', 'Pacific','Black','White' ,'Hispanic']),
     eyeColor: z.enum(['Brown', 'Blue', 'Gray', 'Hazel']),
     bald: z.boolean(),
-    images: z.array(z.string())
+    zipUrl: z.string()
 })
 
 export const GenerateImage = z.object({
